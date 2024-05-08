@@ -105,8 +105,8 @@ main,.wrapper{
 
 .game-choice__option{
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -237,7 +237,7 @@ main,.wrapper{
 
 @keyframes adjustHeight {
     to{
-        height: 25%;
+        height: 20%;
     }
 }
 

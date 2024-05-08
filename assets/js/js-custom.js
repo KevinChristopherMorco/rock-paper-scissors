@@ -38,64 +38,93 @@ class Game {
   }
 
   announceWinner() {
-    const choice = `${this.player.choice}-${this.computer.choice}`
-    console.log(`Player chooses ${this.player.choice}`)
-    console.log(`AI chooses ${this.computer.choice}`)
+    let currentScore = parseInt(displayPoint.textContent)
 
+    //recreate button
     const aiChoiceEl = document.createElement('button')
     aiChoiceEl.classList.add('game-choice__option')
     aiChoiceEl.classList.add(`choice-${this.computer.choice}`)
     aiChoiceEl.style.cssText = 'top:0;left:60%'
-    btnChoice.appendChild(aiChoiceEl)
+    playerChoice.appendChild(aiChoiceEl)
 
+    
+    const recreateResultText = document.createElement('p')
+    result.appendChild(recreateResultText)
+    const recreateResultBtn = document.createElement('button')
+    recreateResultBtn.textContent = 'Play Again'
+    result.appendChild(recreateResultBtn)
+
+
+    const choice = `${this.player.choice}-${this.computer.choice}`
+    console.log(`Player Chooses:${this.player.choice}`)
+    console.log(`AI  Chooses:${this.computer.choice}`)
 
     if (this.player.choice === this.result[choice]) {
-      displayResult.textContent = 'You Win'
-    }else if(this.player.choice === this.computer.choice){
-      displayResult.textContent = 'Tied'
-    }else{
-      displayResult.textContent = 'You Lose'
-
-    }
-
-    if (this.player.choice === this.result[choice]) {
-      let currentScore = parseInt(displayPoint.textContent)
+      recreateResultText.textContent = 'You Win'
       currentScore += 1
       displayPoint.textContent = currentScore
+    } else if (this.player.choice === this.computer.choice) {
+      recreateResultText.textContent = 'Tied'
+    } else {
+      recreateResultText.textContent = 'You Lose'
     }
-
-
   }
 
   playAgain() {
-    displayPoint.textContent = 0
+    let childLength = playerChoice.children.length
+    for (let i = 0; i < childLength; i++) {
+      playerChoice.removeChild(playerChoice.firstElementChild)
+    }
+
+    let resultLength = result.children.length
+    for (let i = 0; i < resultLength; i++) {
+      result.removeChild(result.firstElementChild)
+    }
+
+    mainContainer.style.cssText = 'height:55%'
+    triangle.style.cssText = 'display:block'
+    const reCreatePlayground = (customClass = null, property = null) => {
+      // const btnClass = ['choice-scissors','choice-paper','choice-rock']
+      const buttonEl = document.createElement('button')
+      for(let j=0; j<customClass.length;j++){
+        buttonEl.classList.add(customClass[j])
+        buttonEl.setAttribute(property[0], property[1])
+
+      }
+      playerChoice.appendChild(buttonEl)
+    }
+
+    for (let i = 0; i < 3; i++) {
+      const btnClass = ['choice-scissors','choice-paper','choice-rock']
+      const btnVal = ['scissors','paper','rock']
+      reCreatePlayground(['game-choice__option' , btnClass[i]], ['value',btnVal[i]])
+    }
+
   }
 }
 const mainContainer = document.querySelector('.game-choice__container')
-const btnChoice = document.querySelector('.game-choice__option-container')
-// const buttons = document.querySelectorAll('.game-choice__option-container > .game-choice__option')
 const triangle = document.querySelector('.game-choice__triangle-container')
-const result = document.querySelector('.game__result-container')
 
 const displayPoint = document.querySelector('.point__container > p:nth-of-type(2)')
-const displayResult = document.querySelector('.game__result-container > p:nth-of-type(1)')
+
+const result = document.querySelector('.game__result-container')
+
+const playerChoice = document.querySelector('.game-choice__option-container')//Handles Delegation
+
 
 let player = new Player()
 let computer = new Computer()
 let game = new Game(player, computer)
 
-btnChoice.addEventListener('click', (e) => {
+playerChoice.addEventListener('click', (e) => {
   if (e.target.tagName === 'BUTTON') {
-    const childEl = Array.from(btnChoice.children)
+    const childEl = Array.from(playerChoice.children)
     const siblingEl = childEl.filter(x => x != e.target)
 
-    console.log(siblingEl)
-  
-
-    siblingEl.forEach((x,i) => {
+    siblingEl.forEach((x, i) => {
       x.style.cssText = 'animation:moveOpponentChoice 1s forwards ease-in-out'
       setTimeout(() => {
-       x.remove()
+        x.remove()
       }, 2000)
     })
     mainContainer.style.cssText = 'animation:adjustHeight 1s forwards ease-in-out'
@@ -104,7 +133,7 @@ btnChoice.addEventListener('click', (e) => {
 
     setTimeout(() => {
       result.style.cssText = 'display:flex;animation:show 2s forwards ease-in-out'
- 
+
       game.announceWinner()
     }, 2000)
 
@@ -112,6 +141,10 @@ btnChoice.addEventListener('click', (e) => {
     computer.randomMove()
   }
 
+})
+
+result.addEventListener('click', (e) => {
+  game.playAgain()
 })
 
 
