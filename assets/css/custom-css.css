@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --Scissors: hsl(39, 89%, 49%);
+    --Paper: hsl(230, 89%, 62%);
+    --Rock: hsl(349, 71%, 52%);
+    --Lizard: hsl(261, 73%, 60%);
+    --Cyan: hsl(189, 59%, 53%);
+    --Dark-Text: hsl(229, 25%, 31%);
+    --Score-Text: hsl(229, 64%, 46%);
+    --Header-Outline: hsl(217, 16%, 45%);
+    --Radial: hsl(214, 47%, 23%);
+    --White: hsl(0, 0%, 100%);
+    --Black: hsl(0, 0%, 0%);
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Barlow Semi Condensed", sans-serif;
+}
+
+body,
+html {
+    height: 100%;
+    background-color: var(--Radial);
+}
+
+main,.wrapper{
+    height: 100%;
+}
+
+
+
+.title-point__container {
+    width: 85%;
+    margin: 5vh auto;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid var(--Header-Outline);
+}
+
+.title-point__container .point__container {
+    width: 30%;
+    padding: 0.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 0.25rem;
+    background-color: var(--White);
+}
+
+.title-point__container .title__container>p,
+.title-point__container .point__container>p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.1rem;
+}
+.title-point__container .title__container>p{
+    color: var(--White);
+}
+
+.title-point__container .point__container>p{
+    padding: 0.2rem 0;
+}
+
+.title-point__container .point__container>p:nth-of-type(1) {
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    color: var(--Score-Text);
+}
+
+.title-point__container .point__container>p:nth-of-type(2) {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--Black);
+}
+
+.game-choice__container{
+    margin: 1rem 0;
+    position: relative;
+    height: 55%;
+}
+
+.game-choice__triangle-container {
+    position: absolute;
+    top: 40px;
+    left: 30px;
+}
+
+.game-choice__option-container{
+    position: relative;
+    margin: 10vh 0;
+    height: 100%;
+    align-items: center;
+    row-gap: 3rem;
+    cursor: pointer;
+}
+
+.game-choice__option{
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: var(--White);
+    z-index: 999;
+}
+
+.choice__img-container{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: var(--White);
+}
+
+.game-choice__option:nth-of-type(1){
+    left: 5%;
+    background-image: url('../../images/icon-scissors.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1rem solid var(--Scissors);
+}
+
+.game-choice__option:nth-of-type(2){
+    left: 60%;
+    background-image: url('../../images/icon-paper.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1rem solid var(--Paper);
+}
+
+.game-choice__option:nth-of-type(3){
+    top: 60%;
+    left: 32%;
+    background-image: url('../../images/icon-rock.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1rem solid var(--Rock);
+}
+
+.game__result-contaniner{
+    padding: 0 0 2.5rem;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game__result-contaniner > p{
+    padding: 0.5rem 0;
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--White);
+}
+
+.game__result-contaniner > button{
+    width: 50%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    outline: none;
+    background-color: var(--White);
+    color: var(--Dark-Text);
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.button-container > button {
+    width: 30%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    outline: none;
+    color: var(--White);
+    background: none;
+
+}
+
+@keyframes show {
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes hide {
+    from{
+        opacity: 1;
+    }
+
+    to{
+        opacity: 0;
+    }
+}
+
+@keyframes moveChoice {
+    to{
+        top: 0;
+        left: 5%;
+    }
+}
+
+@keyframes moveOpponentChoice {
+    to{
+        opacity: 0;
+        top: 0;
+        left: 60%;
+    }
+}
+
+@keyframes adjustHeight {
+    to{
+        height: 25%;
+    }
+}
+
