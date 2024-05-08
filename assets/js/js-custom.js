@@ -37,42 +37,34 @@ class Game {
     }
   }
 
-  incrementPoint() {
-    if (this.player.choice === this.computer.choice) {
-      return
+  announceWinner() {
+    const choice = `${this.player.choice}-${this.computer.choice}`
+    console.log(`Player chooses ${this.player.choice}`)
+    console.log(`AI chooses ${this.computer.choice}`)
+
+    const aiChoiceEl = document.createElement('button')
+    aiChoiceEl.classList.add('game-choice__option')
+    aiChoiceEl.classList.add(`choice-${this.computer.choice}`)
+    aiChoiceEl.style.cssText = 'top:0;left:60%'
+    btnChoice.appendChild(aiChoiceEl)
+
+
+    if (this.player.choice === this.result[choice]) {
+      displayResult.textContent = 'You Win'
+    }else if(this.player.choice === this.computer.choice){
+      displayResult.textContent = 'Tied'
+    }else{
+      displayResult.textContent = 'You Lose'
+
     }
 
-    const choice = `${this.player.choice}-${this.computer.choice}`
     if (this.player.choice === this.result[choice]) {
       let currentScore = parseInt(displayPoint.textContent)
       currentScore += 1
       displayPoint.textContent = currentScore
     }
 
-    const aiChoiceEl = document.createElement('button')
-    aiChoiceEl.classList.add('game-choice__option')
-    aiChoiceEl.classList.add(`choice-${this.computer.choice}`)
-    aiChoiceEl.style.cssText = 'top:0;left:60%'
 
-    btnChoice.appendChild(aiChoiceEl)
-  }
-
-  announceWinner() {
-    const choice = `${this.player.choice}-${this.computer.choice}`
-    console.log(`Player chooses ${this.player.choice}`)
-    console.log(`AI chooses ${this.computer.choice}`)
-
-    if (this.player.choice === this.computer.choice) {
-      displayResult.textContent = 'Tied'
-      console.log('Tied')
-      return
-    }
-
-    if (this.player.choice === this.result[choice]) {
-      displayResult.textContent = 'You Win'
-    } else {
-      displayResult.textContent = 'You Lose'
-    }
   }
 
   playAgain() {
@@ -110,19 +102,14 @@ btnChoice.addEventListener('click', (e) => {
     triangle.style.cssText = 'animation:hide 1s forwards ease-in-out'
     e.target.style.cssText = 'opacity:1; animation:moveChoice 1s forwards'
 
-
-
-
-
     setTimeout(() => {
       result.style.cssText = 'display:flex;animation:show 2s forwards ease-in-out'
  
-      game.incrementPoint()
+      game.announceWinner()
     }, 2000)
 
     player.chooseMove(e)
     computer.randomMove()
-    game.announceWinner()
   }
 
 })
