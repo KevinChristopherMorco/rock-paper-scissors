@@ -39,6 +39,7 @@ class Game {
 
   announceWinner() {
     let currentScore = parseInt(displayPoint.textContent)
+    playerChoice.removeEventListener('click', handleClick)
 
     //recreate button
     const aiChoiceEl = document.createElement('button')
@@ -71,6 +72,8 @@ class Game {
   }
 
   playAgain() {
+    playerChoice.addEventListener('click', handleClick)
+
     let childLength = playerChoice.children.length
     for (let i = 0; i < childLength; i++) {
       playerChoice.removeChild(playerChoice.firstElementChild)
@@ -116,7 +119,7 @@ let player = new Player()
 let computer = new Computer()
 let game = new Game(player, computer)
 
-playerChoice.addEventListener('click', (e) => {
+const handleClick = (e) => {
   if (e.target.tagName === 'BUTTON') {
     const childEl = Array.from(playerChoice.children)
     const siblingEl = childEl.filter(x => x != e.target)
@@ -140,8 +143,8 @@ playerChoice.addEventListener('click', (e) => {
     player.chooseMove(e)
     computer.randomMove()
   }
-
-})
+}
+playerChoice.addEventListener('click', handleClick)
 
 result.addEventListener('click', (e) => {
   game.playAgain()
