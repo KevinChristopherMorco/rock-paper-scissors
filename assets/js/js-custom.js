@@ -50,9 +50,9 @@ class Game {
     const choice = `${this.player.choice}-${this.computer.choice}`
 
     if (this.player.choice === this.result[choice]) {
-      let currentScore = parseInt(point.textContent)
+      let currentScore = parseInt(displayPoint.textContent)
       currentScore += 1
-      point.textContent = currentScore
+      displayPoint.textContent = currentScore
     }
 
   }
@@ -63,30 +63,31 @@ class Game {
     console.log(`AI chooses ${this.computer.choice}`)
 
     if (this.player.choice === this.computer.choice) {
+      displayResult.textContent = 'Tied'
       console.log('Tied')
       return
     }
 
     if (this.player.choice === this.result[choice]) {
-      console.log('You win :D')
+      displayResult.textContent = 'You Win'
     } else {
-      console.log('AI win :D')
-
+      displayResult.textContent = 'You Lose'
     }
 
   }
 
   playAgain() {
-    point.textContent = 0
+    displayPoint.textContent = 0
   }
 }
 const mainContainer = document.querySelector('.game-choice__container')
 const btnChoice = document.querySelector('.game-choice__option-container')
 const buttons = document.querySelectorAll('.game-choice__option-container > .game-choice__option')
 const triangle = document.querySelector('.game-choice__triangle-container')
-const result = document.querySelector('.game__result-contaniner')
+const result = document.querySelector('.game__result-container')
 
-const point = document.querySelector('.point__container > p:nth-of-type(2)')
+const displayPoint = document.querySelector('.point__container > p:nth-of-type(2)')
+const displayResult = document.querySelector('.game__result-container > p:nth-of-type(1)')
 
 let player = new Player()
 let computer = new Computer()

@@ -153,7 +153,7 @@ main,.wrapper{
     border: 1rem solid var(--Rock);
 }
 
-.game__result-contaniner{
+.game__result-container{
     padding: 0 0 2.5rem;
     display: none;
     justify-content: center;
@@ -161,7 +161,7 @@ main,.wrapper{
     flex-direction: column;
 }
 
-.game__result-contaniner > p{
+.game__result-container > p{
     padding: 0.5rem 0;
     font-size: 3.5rem;
     text-transform: uppercase;
@@ -169,7 +169,7 @@ main,.wrapper{
     color: var(--White);
 }
 
-.game__result-contaniner > button{
+.game__result-container > button{
     width: 50%;
     padding: 1rem;
     font-size: 1rem;
