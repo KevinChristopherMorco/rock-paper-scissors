@@ -5,11 +5,9 @@ class Player {
 
   chooseMove(e) {
     if (e.target.tagName === 'BUTTON') {
-      const playerChoice = e.target.classList[1]
+      const playerChoice = e.target.value
       this.choice = playerChoice
     }
-
-
   }
 }
 
@@ -40,21 +38,23 @@ class Game {
   }
 
   incrementPoint() {
-
-
-
     if (this.player.choice === this.computer.choice) {
       return
     }
 
     const choice = `${this.player.choice}-${this.computer.choice}`
-
     if (this.player.choice === this.result[choice]) {
       let currentScore = parseInt(displayPoint.textContent)
       currentScore += 1
       displayPoint.textContent = currentScore
     }
 
+    const aiChoiceEl = document.createElement('button')
+    aiChoiceEl.classList.add('game-choice__option')
+    aiChoiceEl.classList.add(`choice-${this.computer.choice}`)
+    aiChoiceEl.style.cssText = 'top:0;left:60%'
+
+    btnChoice.appendChild(aiChoiceEl)
   }
 
   announceWinner() {
@@ -73,7 +73,6 @@ class Game {
     } else {
       displayResult.textContent = 'You Lose'
     }
-
   }
 
   playAgain() {
@@ -82,7 +81,7 @@ class Game {
 }
 const mainContainer = document.querySelector('.game-choice__container')
 const btnChoice = document.querySelector('.game-choice__option-container')
-const buttons = document.querySelectorAll('.game-choice__option-container > .game-choice__option')
+// const buttons = document.querySelectorAll('.game-choice__option-container > .game-choice__option')
 const triangle = document.querySelector('.game-choice__triangle-container')
 const result = document.querySelector('.game__result-container')
 
@@ -94,10 +93,18 @@ let computer = new Computer()
 let game = new Game(player, computer)
 
 btnChoice.addEventListener('click', (e) => {
-
   if (e.target.tagName === 'BUTTON') {
-    buttons.forEach(x => {
+    const childEl = Array.from(btnChoice.children)
+    const siblingEl = childEl.filter(x => x != e.target)
+
+    console.log(siblingEl)
+  
+
+    siblingEl.forEach((x,i) => {
       x.style.cssText = 'animation:moveOpponentChoice 1s forwards ease-in-out'
+      setTimeout(() => {
+       x.remove()
+      }, 2000)
     })
     mainContainer.style.cssText = 'animation:adjustHeight 1s forwards ease-in-out'
     triangle.style.cssText = 'animation:hide 1s forwards ease-in-out'
@@ -105,13 +112,16 @@ btnChoice.addEventListener('click', (e) => {
 
 
 
+
+
     setTimeout(() => {
       result.style.cssText = 'display:flex;animation:show 2s forwards ease-in-out'
-    },2000)
+ 
+      game.incrementPoint()
+    }, 2000)
 
     player.chooseMove(e)
     computer.randomMove()
-    game.incrementPoint()
     game.announceWinner()
   }
 

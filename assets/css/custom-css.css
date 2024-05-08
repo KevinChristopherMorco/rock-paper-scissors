@@ -128,7 +128,7 @@ main,.wrapper{
     background-color: var(--White);
 }
 
-.game-choice__option:nth-of-type(1){
+.game-choice__option.choice-scissors{
     left: 5%;
     background-image: url('../../images/icon-scissors.svg');
     background-repeat: no-repeat;
@@ -136,7 +136,7 @@ main,.wrapper{
     border: 1rem solid var(--Scissors);
 }
 
-.game-choice__option:nth-of-type(2){
+.game-choice__option.choice-paper{
     left: 60%;
     background-image: url('../../images/icon-paper.svg');
     background-repeat: no-repeat;
@@ -144,7 +144,7 @@ main,.wrapper{
     border: 1rem solid var(--Paper);
 }
 
-.game-choice__option:nth-of-type(3){
+.game-choice__option.choice-rock{
     top: 60%;
     left: 32%;
     background-image: url('../../images/icon-rock.svg');
