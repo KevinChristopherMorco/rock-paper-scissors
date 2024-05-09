@@ -91,8 +91,6 @@ main {
 .game-choice__main-container {
     height: 55%;
     margin: 1rem 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .game-choice__triangle-container {
@@ -110,8 +108,22 @@ main {
     cursor: pointer;
 }
 
-.game-choice__option {
+.btn-container {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--White);
+}
+
+.btn-container>p {
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.game-choice__option {
     width: 140px;
     height: 140px;
     display: flex;
@@ -143,8 +155,20 @@ main {
     border: 1rem solid var(--Scissors);
 }
 
-.game-choice__option.choice-paper {
+.game-choice__option-container .btn-container.scissors {
+    left: 5%;
+}
+
+.game-choice__option-container .btn-container.paper {
     left: 60%;
+}
+
+.game-choice__option-container .btn-container.rock {
+    top: 30%;
+    left: 35%;
+}
+
+.game-choice__option.choice-paper {
     background-image: url('../../images/icon-paper.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -154,7 +178,7 @@ main {
 .game-choice__option.choice-rock {
     top: 30%;
     left: 35%;
-    transform: (-35%,-30%);
+    transform: (-35%, -30%);
     background-image: url('../../images/icon-rock.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -188,6 +212,7 @@ main {
     outline: none;
     background-color: var(--White);
     color: var(--Dark-Text);
+    cursor: pointer;
 }
 
 .button-container {
@@ -245,7 +270,7 @@ main {
 
 @keyframes adjustHeight {
     to {
-        height: 20%;
+        height: 30%;
     }
 }
 
@@ -260,9 +285,9 @@ main {
     display: block;
 }
 
-.game-choice__option.computer-choice {
+.game-choice__option-container .btn-container.computer-choice {
     top: 0;
-    left: 60%;
+    left: 55%;
 }
 
 .game-choice__main-container.animate-height {
