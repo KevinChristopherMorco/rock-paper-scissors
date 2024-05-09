@@ -70,6 +70,10 @@ class Renderer {
     }
   }
 
+  removeClass(element,className) {
+    element.classList.remove(className)
+  }
+
   setCustomCss(element, customClass) {
     element.classList.add(customClass)
   }
@@ -89,7 +93,7 @@ class Renderer {
     computerChoiceDisplay.classList.add(defaultClass)
     computerChoiceDisplay.classList.add(choice)
     this.setCustomCss(computerChoiceDisplay, 'computer-choice')
-    mainContainer.appendChild(computerChoiceDisplay)
+    playerChoice.appendChild(computerChoiceDisplay)
   }
 
   createResultsDisplay(elements) {
@@ -123,11 +127,15 @@ class Renderer {
   initializeGameBoard() {
     this.removeChildrenEl(playerChoice)
     this.removeChildrenEl(result)
-
+    const opponentChoice = document.querySelector('.game-choice__main-container > button')
+    opponentChoice.remove()
     this.setCustomCss(mainContainer, 'recreate')
     this.setCustomCss(triangleIcon, 'recreate')
 
     this.recreateChoiceButton('game-choice__option', ['choice-scissors', 'choice-paper', 'choice-rock'], ['scissors', 'paper', 'rock'])
+    
+    this.removeClass(mainContainer,'animate-height')
+    this.removeClass(triangleIcon,'animate-opacity')
 
     playerChoice.addEventListener('click', handleClick)
   }
@@ -141,32 +149,33 @@ let render = new Renderer(player, computer)
 
 const mainContainer = document.querySelector('.game-choice__main-container')
 const triangleIcon = document.querySelector('.game-choice__triangle-container')
-
 const displayPoint = document.querySelector('.point__container > p:nth-of-type(2)')
-
 const result = document.querySelector('.game__result-container')//Handles Delegation
-
 const playerChoice = document.querySelector('.game-choice__option-container')//Handles Delegation
 
 
-const handleClick = (e) => {
+const handleClick = e => {
   if (e.target.tagName === 'BUTTON') {
-    const childEl = Array.from(playerChoice.children)
-    const siblingEl = childEl.filter(x => x != e.target)
+    mainContainer.classList.add('animate-height')
+    triangleIcon.classList.add('animate-opacity')
+    e.target.classList.add('movePlayerChoice')
 
-    siblingEl.forEach((x, i) => {
-      x.style.cssText = 'animation:moveOpponentChoice 1s forwards ease-in-out'
+    const childEl = Array.from(playerChoice.children)
+    const siblings = childEl.filter(x => x != e.target)
+    
+
+    siblings.forEach(sibling => {
+      sibling.classList.add('moveOpponentChoice')
+
       setTimeout(() => {
-        x.remove()
+        sibling.remove()
       }, 2000)
     })
-    mainContainer.classList.add('adjust-height-animation')
-    triangleIcon.classList.add('hide')
-    e.target.classList.add('movePlayerChoice')
+
 
 
     setTimeout(() => {
-      result.style.cssText = 'display:flex;animation:show 1.5s forwards ease-in-out'
+      result.classList.add('show-result')
       game.announceWinner()
       render.reinitializeResults()
 

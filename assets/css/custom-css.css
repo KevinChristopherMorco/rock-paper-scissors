@@ -28,7 +28,11 @@ html {
     background-color: var(--Radial);
 }
 
-main,
+main {
+    position: relative;
+    height: 100%;
+}
+
 .wrapper {
     height: 100%;
 }
@@ -85,19 +89,20 @@ main,
 }
 
 .game-choice__main-container {
-    margin: 1rem 0;
-    position: relative;
     height: 55%;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-choice__triangle-container {
     position: absolute;
-    top: 40px;
-    left: 30px;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
 }
 
 .game-choice__option-container {
-    position: relative;
     margin: 10vh 0;
     height: 100%;
     align-items: center;
@@ -147,8 +152,9 @@ main,
 }
 
 .game-choice__option.choice-rock {
-    top: 60%;
-    left: 32%;
+    top: 30%;
+    left: 35%;
+    transform: (-35%,-30%);
     background-image: url('../../images/icon-rock.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -254,19 +260,28 @@ main,
     display: block;
 }
 
-.game-choice__option.computer-choice{
-    top: 0; 
+.game-choice__option.computer-choice {
+    top: 0;
     left: 60%;
 }
 
-.game-choice__main-container.adjust-height-animation{
-    animation:adjustHeight 1s forwards ease-in-out;
+.game-choice__main-container.animate-height {
+    animation: adjustHeight 1s forwards ease-in-out;
 }
 
-.game-choice__triangle-container.hide{
-    animation:hide 1s forwards ease-in-out;
+.game-choice__triangle-container.animate-opacity {
+    animation: hide 1s forwards ease-in-out;
 }
 
-.movePlayerChoice{
-    animation:movePlayerChoice 1s forwards ease-in-out;
+.moveOpponentChoice {
+    animation: moveOpponentChoice 1s forwards ease-in-out;
+}
+
+.movePlayerChoice {
+    animation: movePlayerChoice 1s forwards ease-in-out;
+}
+
+.game__result-container.show-result {
+    display: flex;
+    animation: show 1.5s forwards ease-in-out
 }
