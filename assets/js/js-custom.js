@@ -78,15 +78,15 @@ class Renderer {
     element.classList.add(customClass)
   }
 
-  recreateChoiceButton(parentClasses) {
-    parentClasses.forEach(parentClass => {
+  recreateChoiceButton(parentClasses,childClasses) {
+    parentClasses.forEach((parentClass,index) => {
       const buttonContainer = document.createElement('div');
       buttonContainer.classList.add('btn-container', parentClass);
       playerChoiceContainer.appendChild(buttonContainer);
 
       const button = document.createElement('button');
-      button.classList.add('game-choice__option', `choice-${parentClass}`);
-      button.setAttribute('value',`${parentClass}`)
+      button.classList.add('game-choice__option', `choice-${childClasses[index]}`);
+      button.setAttribute('value',`${childClasses[index]}`)
       buttonContainer.appendChild(button)
 
       const text = document.createElement('p');
@@ -95,7 +95,7 @@ class Renderer {
 
   }
 
-  createComputerChoice(element, classs) {
+  createComputerChoice(element, classes) {
     const computerChoiceContainer = document.createElement('div')
     computerChoiceContainer.classList.add(`btn-container`, `${this.computer.choice}`)
     this.setCustomCss(computerChoiceContainer, 'computer-choice')
@@ -145,7 +145,7 @@ class Renderer {
     this.setCustomCss(gameChoiceContainer, 'recreate')
     this.setCustomCss(gameTriangleIcon, 'recreate')
 
-    this.recreateChoiceButton(['scissors', 'paper', 'rock'])
+    this.recreateChoiceButton(['scissor-container', 'paper-container', 'rock-container'],['scissors', 'paper', 'rock'])
 
     this.removeClass(gameChoiceContainer, 'animate-height')
     this.removeClass(gameTriangleIcon, 'animate-opacity')
@@ -173,13 +173,12 @@ const handleClick = e => {
     gameTriangleIcon.classList.add('animate-opacity')
     e.target.parentElement.classList.add('movePlayerChoice')
 
-    const childEl = Array.from(playerChoiceContainer.children)
-    const siblings = childEl.filter(x => x != e.target.parentElement)
+    const buttonContainers = Array.from(playerChoiceContainer.children)
+    const buttonSiblings = buttonContainers.filter(x => x != e.target.parentElement)
 
-    siblings.forEach(sibling => {
+    buttonSiblings.forEach(sibling => {
       sibling.classList.add('moveOpponentChoice')
       e.target.parentElement.querySelector('p').textContent = 'YOU PICKED'
-
       setTimeout(() => {
         sibling.remove()
       }, 2000)
