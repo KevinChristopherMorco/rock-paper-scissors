@@ -64,19 +64,27 @@ class Renderer {
     }
   }
 
-  removeChildrenEl(parentElement) {
-    while (parentElement.firstChild) {
-      parentElement.removeChild(parentElement.firstChild)
-    }
+  removeChildrenEl(elements) {
+    elements.forEach(element => {
+      while(element.firstChild){
+        element.removeChild(element.firstChild)
+      }
+    })
   }
 
   removeClass(element, className) {
     element.classList.remove(className)
   }
 
-  setCustomCss(element, customClass) {
-    element.classList.add(customClass)
+  setCssClass(elements, customClass) {
+    elements.forEach(element => {
+      element.classList.add(customClass)
+    })
   }
+
+  // setCssClass(element, customClass) {
+  //   element.classList.add(customClass)
+  // }
 
   recreateChoiceButton(parentClasses,childClasses) {
     parentClasses.forEach((parentClass,index) => {
@@ -98,7 +106,7 @@ class Renderer {
   createComputerChoice(element, classes) {
     const computerChoiceContainer = document.createElement('div')
     computerChoiceContainer.classList.add(`btn-container`, `${this.computer.choice}`)
-    this.setCustomCss(computerChoiceContainer, 'computer-choice')
+    this.setCssClass([computerChoiceContainer], ['computer-choice'])
 
     const buttonChoice = document.createElement('button')
     buttonChoice.classList.add('game-choice__option', `choice-${this.computer.choice}`)
@@ -139,11 +147,9 @@ class Renderer {
   }
 
   initializeGameBoard() {
-    this.removeChildrenEl(playerChoiceContainer)
-    this.removeChildrenEl(gameResultContainer)
-
-    this.setCustomCss(gameChoiceContainer, 'recreate')
-    this.setCustomCss(gameTriangleIcon, 'recreate')
+    this.removeChildrenEl([playerChoiceContainer,gameResultContainer])
+    this.setCssClass([gameChoiceContainer,gameTriangleIcon], 'recreate')
+    
 
     this.recreateChoiceButton(['scissor-container', 'paper-container', 'rock-container'],['scissors', 'paper', 'rock'])
 
