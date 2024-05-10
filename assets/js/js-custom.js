@@ -149,6 +149,7 @@ class Renderer {
 
     this.removeClass(gameChoiceContainer, 'animate-height')
     this.removeClass(gameTriangleIcon, 'animate-opacity')
+    this.removeClass(ruleContainer, 'animate-opacity')
 
     playerChoiceContainer.addEventListener('click', handleClick)
   }
@@ -165,13 +166,18 @@ const gameTriangleIcon = document.querySelector('.game-choice__triangle-containe
 const pointDisplay = document.querySelector('.point__container > p:nth-of-type(2)')
 const gameResultContainer = document.querySelector('.game__result-container')
 const playerChoiceContainer = document.querySelector('.game-choice__option-container')
-
+const ruleContainer = document.querySelector('.game__rules-container')
+const overlay = document.querySelector('.game-rule__overlay-container')
+const overlayClose = document.querySelector('.game-rule__overlay-container .game-rule__icon ')
 
 const handleClick = e => {
   if (e.target.tagName === 'BUTTON') {
     gameChoiceContainer.classList.add('animate-height')
     gameTriangleIcon.classList.add('animate-opacity')
+    ruleContainer.classList.add('animate-opacity')
     e.target.parentElement.classList.add('movePlayerChoice')
+   
+
 
     const buttonContainers = Array.from(playerChoiceContainer.children)
     const buttonSiblings = buttonContainers.filter(x => x != e.target.parentElement)
@@ -197,10 +203,17 @@ const handleClick = e => {
 }
 playerChoiceContainer.addEventListener('click', handleClick)
 
-gameResultContainer.addEventListener('click', (e) => {
+gameResultContainer.addEventListener('click', () => {
   render.initializeGameBoard()
 })
 
+ruleContainer.addEventListener('click', e => {
+  overlay.classList.add('show')
+
+  overlayClose.addEventListener('click', e => {
+    overlay.classList.remove('show')
+  })
+})
 
 
 
