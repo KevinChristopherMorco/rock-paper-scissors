@@ -160,7 +160,7 @@ main {
 }
 
 .game-choice__option-container .btn-container.paper {
-    left: 60%;
+    left: 55%;
 }
 
 .game-choice__option-container .btn-container.rock {
@@ -264,7 +264,7 @@ main {
     to {
         opacity: 0;
         top: 0;
-        left: 60%;
+        left: 55%;
     }
 }
 

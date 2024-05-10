@@ -5,8 +5,8 @@ class Player {
 
   chooseMove(e) {
     if (e.target.tagName === 'BUTTON') {
-      const playerChoice = e.target.value
-      this.choice = playerChoice
+      const playerChoiceContainer = e.target.value
+      this.choice = playerChoiceContainer
     }
   }
 }
@@ -38,14 +38,14 @@ class Game {
   }
 
   announceWinner() {
-    let currentScore = parseInt(displayPoint.textContent)
+    let currentScore = parseInt(pointDisplay.textContent)
     const choice = `${this.player.choice}-${this.computer.choice}`
 
     if (this.player.choice === this.result[choice]) {
       currentScore += 1
-      displayPoint.textContent = currentScore
+      pointDisplay.textContent = currentScore
     }
-    playerChoice.removeEventListener('click', handleClick)
+    playerChoiceContainer.removeEventListener('click', handleClick)
   }
 }
 
@@ -79,10 +79,10 @@ class Renderer {
   }
 
   recreateChoiceButton(parentClasses) {
-    parentClasses.forEach((parentClass, index) => {
+    parentClasses.forEach(parentClass => {
       const buttonContainer = document.createElement('div');
       buttonContainer.classList.add('btn-container', parentClass);
-      playerChoice.appendChild(buttonContainer);
+      playerChoiceContainer.appendChild(buttonContainer);
 
       const button = document.createElement('button');
       button.classList.add('game-choice__option', `choice-${parentClass}`);
@@ -96,27 +96,26 @@ class Renderer {
   }
 
   createComputerChoice(element, classs) {
-    const computerChoiceDisplay = document.createElement('div')
-    computerChoiceDisplay.classList.add(`btn-container`, `${this.computer.choice}`)
-    this.setCustomCss(computerChoiceDisplay, 'computer-choice')
+    const computerChoiceContainer = document.createElement('div')
+    computerChoiceContainer.classList.add(`btn-container`, `${this.computer.choice}`)
+    this.setCustomCss(computerChoiceContainer, 'computer-choice')
 
-
-    const btn = document.createElement('button')
-    btn.classList.add('game-choice__option', `choice-${this.computer.choice}`)
-    computerChoiceDisplay.appendChild(btn)
+    const buttonChoice = document.createElement('button')
+    buttonChoice.classList.add('game-choice__option', `choice-${this.computer.choice}`)
+    computerChoiceContainer.appendChild(buttonChoice)
 
     const text = document.createElement('p')
     text.textContent = 'HOUSE PICKED'
-    computerChoiceDisplay.appendChild(text)
+    computerChoiceContainer.appendChild(text)
 
-    playerChoice.appendChild(computerChoiceDisplay)
+    playerChoiceContainer.appendChild(computerChoiceContainer)
   }
 
   createResultsDisplay(elements) {
     const choice = `${this.player.choice}-${this.computer.choice}`
     elements.forEach(element => {
       const display = document.createElement(element)
-      result.appendChild(display)
+      gameResultContainer.appendChild(display)
 
       if (element === 'p') {
         if (this.player.choice === this.result[choice]) {
@@ -140,18 +139,18 @@ class Renderer {
   }
 
   initializeGameBoard() {
-    this.removeChildrenEl(playerChoice)
-    this.removeChildrenEl(result)
+    this.removeChildrenEl(playerChoiceContainer)
+    this.removeChildrenEl(gameResultContainer)
 
-    this.setCustomCss(mainContainer, 'recreate')
-    this.setCustomCss(triangleIcon, 'recreate')
+    this.setCustomCss(gameChoiceContainer, 'recreate')
+    this.setCustomCss(gameTriangleIcon, 'recreate')
 
     this.recreateChoiceButton(['scissors', 'paper', 'rock'])
 
-    this.removeClass(mainContainer, 'animate-height')
-    this.removeClass(triangleIcon, 'animate-opacity')
+    this.removeClass(gameChoiceContainer, 'animate-height')
+    this.removeClass(gameTriangleIcon, 'animate-opacity')
 
-    playerChoice.addEventListener('click', handleClick)
+    playerChoiceContainer.addEventListener('click', handleClick)
   }
 }
 
@@ -161,21 +160,20 @@ let game = new Game(player, computer)
 let render = new Renderer(player, computer)
 
 
-const mainContainer = document.querySelector('.game-choice__main-container')
-const triangleIcon = document.querySelector('.game-choice__triangle-container')
-const displayPoint = document.querySelector('.point__container > p:nth-of-type(2)')
-const result = document.querySelector('.game__result-container')//Handles Delegation
-const playerChoice = document.querySelector('.game-choice__option-container')//Handles Delegation
-const btnContainer = document.querySelectorAll('.btn-container > p')//Handles Delegation
+const gameChoiceContainer = document.querySelector('.game-choice__main-container')
+const gameTriangleIcon = document.querySelector('.game-choice__triangle-container')
+const pointDisplay = document.querySelector('.point__container > p:nth-of-type(2)')
+const gameResultContainer = document.querySelector('.game__result-container')
+const playerChoiceContainer = document.querySelector('.game-choice__option-container')
 
 
 const handleClick = e => {
   if (e.target.tagName === 'BUTTON') {
-    mainContainer.classList.add('animate-height')
-    triangleIcon.classList.add('animate-opacity')
+    gameChoiceContainer.classList.add('animate-height')
+    gameTriangleIcon.classList.add('animate-opacity')
     e.target.parentElement.classList.add('movePlayerChoice')
 
-    const childEl = Array.from(playerChoice.children)
+    const childEl = Array.from(playerChoiceContainer.children)
     const siblings = childEl.filter(x => x != e.target.parentElement)
 
     siblings.forEach(sibling => {
@@ -187,10 +185,8 @@ const handleClick = e => {
       }, 2000)
     })
 
-
-
     setTimeout(() => {
-      result.classList.add('show-result')
+      gameResultContainer.classList.add('show-result')
       game.announceWinner()
       render.reinitializeResults()
 
@@ -200,9 +196,9 @@ const handleClick = e => {
     computer.randomMove()
   }
 }
-playerChoice.addEventListener('click', handleClick)
+playerChoiceContainer.addEventListener('click', handleClick)
 
-result.addEventListener('click', (e) => {
+gameResultContainer.addEventListener('click', (e) => {
   render.initializeGameBoard()
 })
 
