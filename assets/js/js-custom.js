@@ -105,13 +105,18 @@ class Renderer {
     }
   }
 
-  createComputerChoice(element, classes) {
+  createComputerChoice(defaultClasses) {
     const computerChoiceContainer = document.createElement('div')
-    computerChoiceContainer.classList.add(`btn-container`, `${this.computer.choice}`)
-    this.setCssClass([computerChoiceContainer], ['computer-choice'])
-
     const buttonChoice = document.createElement('button')
-    buttonChoice.classList.add('game-choice__option', `choice-${this.computer.choice}`)
+
+    this.setCssClass([computerChoiceContainer,buttonChoice], 'computer-choice')
+    
+    const [btnContainerDefault, btnDefault] = defaultClasses;
+    for(let i=0;i<defaultClasses.length;i++){
+      this.setCssClass([computerChoiceContainer], btnContainerDefault[i])
+      this.setCssClass([buttonChoice], btnDefault[i])
+    }
+
     computerChoiceContainer.appendChild(buttonChoice)
 
     const text = document.createElement('p')
@@ -119,6 +124,7 @@ class Renderer {
     computerChoiceContainer.appendChild(text)
 
     playerChoiceContainer.appendChild(computerChoiceContainer)
+
   }
 
   createResultsDisplay(elements) {
@@ -144,7 +150,7 @@ class Renderer {
   }
 
   reinitializeResults() {
-    this.createComputerChoice()
+    this.createComputerChoice([['btn-container', `${this.computer.choice}`], ['game-choice__option', `choice-${this.computer.choice}`]])
     this.createResultsDisplay(['p', 'button'])
   }
 
@@ -225,7 +231,7 @@ const handleCloseRule = () => {
   overlay.classList.remove('show')
 }
 
-overlayClose.addEventListener('click',handleCloseRule)
+overlayClose.addEventListener('click', handleCloseRule)
 
 
 
