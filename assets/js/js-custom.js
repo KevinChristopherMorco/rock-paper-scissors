@@ -45,7 +45,8 @@ class Game {
       currentScore += 1
       pointDisplay.textContent = currentScore
     }
-    playerChoiceContainer.removeEventListener('click', handleClick)
+    playerChoiceContainer.removeEventListener('click', handlePlayerClick)
+    ruleContainer.removeEventListener('click', handleRuleClick)
   }
 }
 
@@ -66,41 +67,42 @@ class Renderer {
 
   removeChildrenEl(elements) {
     elements.forEach(element => {
-      while(element.firstChild){
+      while (element.firstChild) {
         element.removeChild(element.firstChild)
       }
     })
   }
 
-  removeClass(element, className) {
-    element.classList.remove(className)
-  }
-
-  setCssClass(elements, customClass) {
+  removeClass(elements, className) {
     elements.forEach(element => {
-      element.classList.add(customClass)
+      element.classList.remove(className)
     })
   }
 
-  // setCssClass(element, customClass) {
-  //   element.classList.add(customClass)
-  // }
+  setCssClass(elements, customClasses) {
+    elements.forEach(element => {
+      element.classList.add(customClasses)
+    })
+  }
 
-  recreateChoiceButton(parentClasses,childClasses) {
-    parentClasses.forEach((parentClass,index) => {
-      const buttonContainer = document.createElement('div');
-      buttonContainer.classList.add('btn-container', parentClass);
-      playerChoiceContainer.appendChild(buttonContainer);
+  recreateChoiceButton(defaultClasses, customClasses, values) {
 
-      const button = document.createElement('button');
-      button.classList.add('game-choice__option', `choice-${childClasses[index]}`);
-      button.setAttribute('value',`${childClasses[index]}`)
-      buttonContainer.appendChild(button)
-
+    for (let i = 0; i < 3; i++) {
+      const btnContainerEl = document.createElement('div');
+      const btnEl = document.createElement('button');
       const text = document.createElement('p');
-      buttonContainer.appendChild(text)
-    });
 
+      const [btnContainerDefault, btnDefault] = defaultClasses;
+      const [btnContainerCustom, btnCustom] = customClasses;
+
+      btnContainerEl.classList.add(btnContainerDefault, btnContainerCustom[i]);
+      btnEl.classList.add(btnDefault, btnCustom[i]);
+      btnEl.setAttribute('value', `${values[i]}`)
+
+      playerChoiceContainer.appendChild(btnContainerEl);
+      btnContainerEl.appendChild(btnEl);
+      btnContainerEl.appendChild(text)
+    }
   }
 
   createComputerChoice(element, classes) {
@@ -147,17 +149,17 @@ class Renderer {
   }
 
   initializeGameBoard() {
-    this.removeChildrenEl([playerChoiceContainer,gameResultContainer])
-    this.setCssClass([gameChoiceContainer,gameTriangleIcon], 'recreate')
-    
+    this.removeChildrenEl([playerChoiceContainer, gameResultContainer])
+    this.setCssClass([gameChoiceContainer, gameTriangleIcon], 'recreate')
 
-    this.recreateChoiceButton(['scissor-container', 'paper-container', 'rock-container'],['scissors', 'paper', 'rock'])
+    this.recreateChoiceButton([['btn-container'], ['game-choice__option']], [['scissor-container', 'paper-container', 'rock-container'], ['choice-scissors', 'choice-paper', 'choice-rock']], ['scissors', 'paper', 'rock'])
 
-    this.removeClass(gameChoiceContainer, 'animate-height')
-    this.removeClass(gameTriangleIcon, 'animate-opacity')
-    this.removeClass(ruleContainer, 'animate-opacity')
+    this.removeClass([gameTriangleIcon, ruleContainer], 'animate-opacity')
+    this.removeClass([gameChoiceContainer], 'animate-height')
 
-    playerChoiceContainer.addEventListener('click', handleClick)
+    playerChoiceContainer.addEventListener('click', handlePlayerClick)
+    ruleContainer.addEventListener('click', handleRuleClick)
+
   }
 }
 
@@ -176,20 +178,18 @@ const ruleContainer = document.querySelector('.game__rules-container')
 const overlay = document.querySelector('.game-rule__overlay-container')
 const overlayClose = document.querySelector('.game-rule__overlay-container .game-rule__icon ')
 
-const handleClick = e => {
+const handlePlayerClick = e => {
   if (e.target.tagName === 'BUTTON') {
-    gameChoiceContainer.classList.add('animate-height')
-    gameTriangleIcon.classList.add('animate-opacity')
-    ruleContainer.classList.add('animate-opacity')
-    e.target.parentElement.classList.add('movePlayerChoice')
-   
-
+    render.setCssClass([gameTriangleIcon, ruleContainer], 'animate-opacity')
+    render.setCssClass([gameChoiceContainer], 'animate-height')
+    render.setCssClass([e.target.parentElement], 'movePlayerChoice')
 
     const buttonContainers = Array.from(playerChoiceContainer.children)
     const buttonSiblings = buttonContainers.filter(x => x != e.target.parentElement)
 
     buttonSiblings.forEach(sibling => {
-      sibling.classList.add('moveOpponentChoice')
+      render.setCssClass([sibling], 'moveOpponentChoice')
+
       e.target.parentElement.querySelector('p').textContent = 'YOU PICKED'
       setTimeout(() => {
         sibling.remove()
@@ -197,7 +197,7 @@ const handleClick = e => {
     })
 
     setTimeout(() => {
-      gameResultContainer.classList.add('show-result')
+      render.setCssClass([gameResultContainer], 'show-result')
       game.announceWinner()
       render.reinitializeResults()
 
@@ -207,19 +207,25 @@ const handleClick = e => {
     computer.randomMove()
   }
 }
-playerChoiceContainer.addEventListener('click', handleClick)
+playerChoiceContainer.addEventListener('click', handlePlayerClick)
 
-gameResultContainer.addEventListener('click', () => {
+const handlePlayAgainClick = () => {
   render.initializeGameBoard()
-})
+}
 
-ruleContainer.addEventListener('click', e => {
+gameResultContainer.addEventListener('click', handlePlayAgainClick)
+
+const handleRuleClick = () => {
   overlay.classList.add('show')
+}
 
-  overlayClose.addEventListener('click', e => {
-    overlay.classList.remove('show')
-  })
-})
+ruleContainer.addEventListener('click', handleRuleClick)
+
+const handleCloseRule = () => {
+  overlay.classList.remove('show')
+}
+
+overlayClose.addEventListener('click',handleCloseRule)
 
 
 
