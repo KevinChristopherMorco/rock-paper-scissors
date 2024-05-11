@@ -12,6 +12,7 @@
     --Radial: hsl(214, 47%, 23%);
     --White: hsl(0, 0%, 100%);
     --Black: hsl(0, 0%, 0%);
+    --footer-color: hsl(238, 40%, 48%);
 
 }
 
@@ -216,7 +217,7 @@ header {
 .game__rules-container {
     width: 100%;
     position: absolute;
-    bottom: 0;
+    bottom: 5%;
     display: flex;
     justify-content: center;
 }
@@ -231,7 +232,7 @@ header {
     outline: none;
     color: var(--White);
     background: none;
-
+    cursor: pointer;
 }
 
 .game-rule__overlay-container {
@@ -259,6 +260,7 @@ header {
     font-size: 2rem;
     font-weight: bold;
     color: var(--Black);
+    cursor: pointer;
 }
 
 .game-rule__overlay-content {
@@ -324,6 +326,60 @@ header {
 .game__result-container.show-result {
     display: flex;
     animation: show 1.5s forwards ease-in-out
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--footer-color);
+    z-index: 999;
+}
+
+.footer__container {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--White);
+}
+
+.footer__container .footer__text-container>p {
+    padding: 0.5rem 0;
+}
+
+.footer__container .footer__text-container>p:nth-of-type(1) {
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-style: oblique;
+}
+
+.footer__container .footer__text-container>p:nth-of-type(2) {
+    font-size: 1rem;
+}
+
+
+.footer__container .icon__container {
+    padding: 1rem 0;
+}
+
+.footer__container .icon__container>ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer__container .icon__container>ul>li {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+}
+
+.footer__container .icon__container>ul>li>a {
+    color: var(--White)
+}
+
+.footer__container .icon__container>ul>li>a>i {
+    font-size: 1.5rem;
 }
 
 
